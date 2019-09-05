@@ -1,11 +1,16 @@
 require('dotenv').config();
 const express = require('express');
 const session = require('express-session');
+const MongoStore = require('connect-mongo')(session);
+const mongoose = require('mongoose');
 
 const connectDB = require('./config/db');
 const routes = require('./routes/routes');
 
 const app = express();
+
+// Connect Database
+connectDB();
 
 const sess = {
   secret: process.env.SESSION_SECRET,
@@ -16,12 +21,11 @@ const sess = {
 
 if (app.get('env') === 'production') {
   sess.cookie.secure = true; //serve secure cookies, requires https
+  sess.cookie.httpOnly = true;
+  sess.store = new MongoStore({ mongooseConnection: mongoose.connection });
 }
 
 app.use(session(sess));
-
-// Connect Database
-connectDB();
 
 // Init middleware
 app.use(express.json({ extended: false }));
