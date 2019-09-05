@@ -23,7 +23,7 @@ const Navbar = ({ auth: { isAuthenticated, loading } }) => {
     <nav className='navbar bg-dark'>
       <h1>
         <Link to='/'>Tech Haven</Link>
-        <a href='https://thetechhaven.com' className='small'>
+        <a href='https://blog.thetechhaven.com' className='small'>
           Blog
         </a>
       </h1>
